@@ -12,20 +12,22 @@ RUN echo date
 RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update
 RUN apt-get install -y php7.4
-RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-zip
+RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-zip php7.4-xml
 RUN apt-get install -y curl
 RUN apt-get install -y sudo
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 ENV ALLOW_OVERRIDE All
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN chown -R www-data:www-data /var/www/html
+RUN ufw allow 'Apache'
+RUN a2enmod rewrite
 
 EXPOSE 80
 
-CMD ["ufw allow 'Apache'"]
-CMD ["a2enmod rewrite"]
-CMD ["service apache2 restart"]
-CMD ["ufw status"]
 CMD ["apache2ctl", "-D","FOREGROUND"]
