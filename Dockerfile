@@ -25,7 +25,6 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN chown -R www-data:www-data /var/www/html
-RUN ufw allow 'Apache'
 RUN a2enmod rewrite
 
 EXPOSE 80
