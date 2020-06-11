@@ -17,6 +17,7 @@ RUN apt-get install -y curl
 RUN apt-get install -y sudo
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 RUN apt-get install -y nodejs
+RUN npm install --global cross-env
 
 ENV ALLOW_OVERRIDE All
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
