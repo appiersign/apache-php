@@ -20,10 +20,15 @@ RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbs
 RUN apt-get install -y curl
 RUN apt-get install -y sudo
 RUN apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+RUN apt-get install -y gcc g++ make
 RUN apt-get install -y nodejs
 RUN apt-get -y install build-essential
 RUN npm install --global cross-env
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y yarn
 
 ENV ALLOW_OVERRIDE All
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
