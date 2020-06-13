@@ -11,10 +11,15 @@ RUN apt-get install -y software-properties-common
 RUN echo date
 RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update
-RUN apt-get install -y php7.4
-RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-curl php7.4-zip php7.4-xml php7.4-cli git unzip
+RUN apt-get install -y git
+RUN apt-get update
+RUN apt-get install -y unzip
+RUN apt-get update
+RUN apt-get install -y php7.4 php7.4-cli
+RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-curl php7.4-zip php7.4-xml
 RUN apt-get install -y curl
 RUN apt-get install -y sudo
+RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 RUN apt-get install -y nodejs
 RUN npm install --global cross-env
@@ -30,10 +35,8 @@ RUN a2enmod rewrite
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-WORKDIR '~'
-RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
-RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 
 EXPOSE 80
 
