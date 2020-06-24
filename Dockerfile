@@ -4,14 +4,6 @@ RUN apt-get update
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-ARG USER_ID
-ARG GROUP_ID
-
-RUN addgroup --gid $GROUP_ID user
-RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
-
-USER user
-
 RUN apt-get install -y apt-utils
 RUN apt-get install -y nano
 RUN apt-get install -y apache2 apache2-utils
